@@ -11,7 +11,11 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    beforeEnter (to, from, next) { // 访问 /login 时（之前）才会执行
+      const { isLogin } = localStorage
+      isLogin ? next({ name: 'Home' }) : next()
+    }
   }
   // {
   //   path: '/about',
@@ -26,6 +30,12 @@ const routes = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes
+})
+
+// 每次做路由跳转之前都会执行
+router.beforeEach((to, from, next) => {
+  const isLogin = localStorage.isLogin
+  ;(isLogin || to.name === 'Login') ? next() : next({ name: 'Login' }) // 避免死循环
 })
 
 export default router
