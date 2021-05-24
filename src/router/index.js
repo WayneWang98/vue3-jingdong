@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/home/Home'
 import Login from '../views/login/Login'
+import Register from '../views/register/Register'
 
 const routes = [
   {
@@ -13,6 +14,15 @@ const routes = [
     name: 'Login',
     component: Login,
     beforeEnter (to, from, next) { // 访问 /login 时（之前）才会执行
+      const { isLogin } = localStorage
+      isLogin ? next({ name: 'Home' }) : next()
+    }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    beforeEnter (to, from, next) {
       const { isLogin } = localStorage
       isLogin ? next({ name: 'Home' }) : next()
     }
@@ -34,8 +44,10 @@ const router = createRouter({
 
 // 每次做路由跳转之前都会执行
 router.beforeEach((to, from, next) => {
-  const isLogin = localStorage.isLogin
-  ;(isLogin || to.name === 'Login') ? next() : next({ name: 'Login' }) // 避免死循环
+  const { isLogin } = localStorage
+  const { name } = to
+  const isLoginOrRegister = (name === 'Login' || name === 'Register')
+  ;(isLogin || isLoginOrRegister) ? next() : next({ name: 'Home' }) // 避免死循环
 })
 
 export default router
