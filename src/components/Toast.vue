@@ -3,14 +3,14 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, toRefs } from 'vue'
 export default {
   name: 'Toast',
   props: ['message']
 }
 export const useToastEffect = () => { // 把和Toast有关的内容封装起来
   const toastData = reactive({
-    showToast: false,
+    show: false,
     toastMessage: ''
   })
 
@@ -23,7 +23,9 @@ export const useToastEffect = () => { // 把和Toast有关的内容封装起来
     }, 2000)
   }
 
-  return { toastData, showToast }
+  const { show, toastMessage } = toRefs(toastData)
+
+  return { show, toastMessage, showToast }
 }
 </script>
 
