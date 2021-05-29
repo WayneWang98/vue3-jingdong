@@ -11,6 +11,7 @@
       </div>
     </div>
     <ShopInfo :item="item" :hideBorder="true" v-show="item.imgUrl"></ShopInfo> <!-- v-show 解决加载时图片闪烁的问题 -->
+    <Content></Content>
   </div>
 </template>
 
@@ -19,6 +20,7 @@ import { reactive, toRefs } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { get } from '../../utils/request'
 import ShopInfo from '../../components/ShopInfo'
+import Content from './Content'
 
 // 获取当前商户信息
 const useShopInfoEffect = () => {
@@ -48,7 +50,8 @@ const useBackRouterEffect = () => {
 export default {
   name: 'Shop',
   components: {
-    ShopInfo
+    ShopInfo,
+    Content
   },
   setup () {
     const { item, getItemData } = useShopInfoEffect()
