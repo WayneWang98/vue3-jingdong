@@ -30,6 +30,7 @@ export const useToastEffect = () => { // 把和Toast有关的内容封装起来
 </script>
 
 <style lang="scss" scoped>
+@import '../style/variables.scss';
 .toast {
   position: fixed;
   left: 50%;
@@ -38,6 +39,6 @@ export const useToastEffect = () => { // 把和Toast有关的内容封装起来
   padding: .1rem;
   background: rgba(0, 0, 0, .35);
   border-radius: .05rem;
-  color: #fff;
+  color: $bgColor;
 }
 </style>

@@ -19,16 +19,10 @@
             <span class="product__item__origin">&yen;66.6</span>
           </p>
         </div>
-      </div>
-      <div class="product__item">
-        <img class="product__item__img" src="http://www.dell-lee.com/imgs/vue3/near.png" alt="">
-        <div class="product__item__detail">
-          <h4 class="product__item__title">番茄250g/份</h4>
-          <p class="product__item__sales">月售10件</p>
-          <p class="product__item__price">
-            <span class="product__item__yen">&yen;33.6</span>
-            <span class="product__item__origin">&yen;66.6</span>
-          </p>
+        <div class="product__number">
+          <span class="product__number__minus">-</span>
+          0
+          <span class="product__number__plus">+</span>
         </div>
       </div>
     </div>
@@ -42,6 +36,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../style/variables.scss';
+@import '../../style/mixins.scss';
 .content {
   display: flex;
   position: absolute;
@@ -54,14 +50,14 @@ export default {
   overflow-y: scroll;
   width: .76rem;
   height: 100%;
-  background: #F5F5F5;
+  background: $search-bg-color;
   &__item {
     line-height: .4rem;
     text-align: center;
     font-size: .14rem;
-    color: #333;
+    color: $content-font-color;
     &--active {
-      background: #FFF;
+      background: $bgColor;
     }
   }
 }
@@ -69,10 +65,14 @@ export default {
   overflow-y: scroll;
   flex: 1;
   &__item {
+    position: relative;
     display: flex;
     padding: .12rem 0;
     margin: 0 .16rem;
-    border-bottom: .01rem solid #F1F1F1;
+    border-bottom: .01rem solid $content-bg-color;
+    &__detail {
+      overflow: hidden;
+    }
     &__img {
       width: .68rem;
       height: .69rem;
@@ -82,19 +82,20 @@ export default {
       margin: 0;
       line-height: .2rem;
       font-size: .14rem;
-      color: #333;
+      color: $content-font-color;
+      @include ellipsis;
     }
     &__sales {
       margin: .06rem 0;
       line-height: .16rem;
       font-size: .12rem;
-      color: #333;
+      color: $content-font-color;
     }
     &__price {
       margin: 0;
       line-height: .2rem;
       font-size: .14rem;
-      color: #E93B3B;
+      color: $hightlight-fontColor;
     }
     &__yen {
       font-size: .12rem;
@@ -103,8 +104,32 @@ export default {
       margin-left: .06rem;
       line-height: .2rem;
       font-size: .12rem;
-      color: #999;
+      color: $light-fontColor;
       text-decoration: line-through;
+    }
+    .product__number {
+      position: absolute;
+      right: 0;
+      bottom: .12rem;
+      &__minus, &__plus {
+        display: inline-block;
+        width: .2rem;
+        height: .2rem;
+        line-height: .16rem;
+        border-radius: 50%;
+        font-size: .2rem;
+        text-align: center;
+      }
+      &__minus {
+        margin-right: .05rem;
+        border: .01rem solid $medium-fontColor;
+        color: $medium-fontColor;
+      }
+      &__plus {
+        margin-left: .05rem;
+        background: $btn-bgColor;
+        color: $bgColor;
+      }
     }
   }
 }
