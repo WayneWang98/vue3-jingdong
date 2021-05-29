@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../style/viriables.scss';
+@import '../../style/variables.scss';
 @import '../../style/mixins.scss';
 .position {
   position: relative;
@@ -79,8 +79,8 @@ export default {
   margin-bottom: .12rem;
   height: .32rem;
   line-height: .32rem;
-  background: #F5F5F5;
-  color: #B7B7B7;
+  background: $search-bg-color;
+  color: $search-fontColor;
   border-radius: .16rem;
   .iconfont {
     display: inline-block;
