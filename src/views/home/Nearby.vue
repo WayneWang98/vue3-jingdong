@@ -1,13 +1,13 @@
 <template>
   <div class="nearby">
     <h3 class="nearby__title">附近店铺</h3>
-    <ShopInfo
-      v-for="item in nearbyList"
-      :key="item._id"
-      :item="item"
-      :hideBorder="false"
-    >
-    </ShopInfo>
+    <router-link to="/shop" v-for="item in nearbyList" :key="item._id"> <!-- 要在 router-link 中使用v-for，而不是在组件上 -->
+      <ShopInfo
+        :item="item"
+        :hideBorder="false"
+      >
+      </ShopInfo>
+    </router-link>
   </div>
 </template>
 
@@ -49,38 +49,8 @@ export default {
     color: $content-font-color;
     font-weight: normal;
   }
-  &__item {
-    display: flex;
-    padding-top: .12rem;
-    &__img {
-      margin-right: .16rem;
-      width: .56rem;
-      height: .56rem;
-    }
-  }
-  &__content {
-    flex: 1;
-    padding-bottom: .12rem;
-    border-bottom: .01rem solid $content-bg-color;
-    &__title {
-      line-height: .22rem;
-      font-size: .16rem;
-    }
-    &__tags {
-      margin-top: .08rem;
-      line-height: .18rem;
-      font-size: .13rem;
-      color: $content-font-color;
-    }
-    &__tag {
-      margin-right: .16rem;
-    }
-    &__highlight {
-      margin: .08rem 0 0;
-      line-height: .18rem;
-      font-size: .13rem;
-      color: #E93B3B;
-    }
+  a {
+    text-decoration: none;
   }
 }
 </style>
