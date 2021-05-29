@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../style/viriables.scss';
+@import '../style/variables.scss';
 .shop {
   display: flex;
   padding-top: .12rem;

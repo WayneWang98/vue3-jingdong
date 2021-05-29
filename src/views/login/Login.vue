@@ -89,7 +89,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../style/viriables.scss';
+@import '../../style/variables.scss';
 .wrapper {
   position: absolute;
   top: 50%;

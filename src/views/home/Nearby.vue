@@ -1,7 +1,11 @@
 <template>
   <div class="nearby">
     <h3 class="nearby__title">附近店铺</h3>
-    <router-link to="/shop" v-for="item in nearbyList" :key="item._id"> <!-- 要在 router-link 中使用v-for，而不是在组件上 -->
+    <router-link
+      v-for="item in nearbyList"
+      :to="`/shop/${item._id}`"
+      :key="item._id"
+    > <!-- 要在 router-link 中使用v-for，而不是在组件上 -->
       <ShopInfo
         :item="item"
         :hideBorder="false"
@@ -41,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../style/viriables.scss';
+@import '../../style/variables.scss';
 .nearby {
   &__title {
     margin: .16rem 0 .04rem 0;
