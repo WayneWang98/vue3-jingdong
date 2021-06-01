@@ -20,10 +20,7 @@ export default createStore({
   mutations: {
     changeCartItemInfo (state, payload) {
       const { shopId, productId, productInfo, num } = payload
-      let shopInfo = state.cartList[shopId]
-      if (!shopInfo) {
-        shopInfo = {}
-      }
+      const shopInfo = state.cartList[shopId] || {}
       let product = shopInfo[productId]
       if (!product) { // 该商店初始时没有该商品
         product = productInfo
