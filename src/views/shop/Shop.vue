@@ -11,7 +11,7 @@
       </div>
     </div>
     <ShopInfo :item="item" :hideBorder="true" v-show="item.imgUrl"></ShopInfo> <!-- v-show 解决加载时图片闪烁的问题 -->
-    <Content></Content>
+    <Content :shopName="item.name"></Content>
     <Cart></Cart>
   </div>
 </template>
