@@ -1,7 +1,7 @@
 <template>
-  <div class="mask" v-if="showCart" @click="handleCartShowChange"></div>
+  <div class="mask" v-if="showCart && calculations.total > 0" @click="handleCartShowChange"></div>
   <div class="cart">
-    <div class="product" v-if="showCart">
+    <div class="product" v-if="showCart && calculations.total > 0">
       <div class="product__header">
         <div
           class="product__header__all"
@@ -9,7 +9,7 @@
         >
           <span
             class="product__header__icon iconfont"
-            v-html="allChecked ? '&#xe618;' : '&#xe7ae;'"
+            v-html="calculations.allChecked ? '&#xe618;' : '&#xe7ae;'"
           ></span>
           全选
         </div>
@@ -60,13 +60,13 @@
           alt=""
           @click="handleCartShowChange"
         >
-        <div class="check__icon__tag">{{total}}</div>
+        <div class="check__icon__tag">{{calculations.total}}</div>
       </div>
       <div class="check__info">
-        总计：<span class="check__info__price">&yen; {{price}}</span>
+        总计：<span class="check__info__price">&yen; {{calculations.price}}</span>
       </div>
       <div class="check__btn">
-        <router-link :to="{ name: 'Home' }">去 结 算</router-link>
+        <router-link :to="{ path: `/orderConfirmation/${shopId}` }">去结算</router-link>
       </div>
     </div>
   </div>
@@ -76,56 +76,30 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { useCommonCartEffect } from './commonCartEffect'
+import { useCommonCartEffect } from '../../effects/cartEffects'
 
 // 和购物车信息有关的逻辑
 const useCartEffect = (shopId) => {
-  const { changeCartItemInfo } = useCommonCartEffect()
   const store = useStore()
-  const cartList = store.state.cartList
+  const { changeCartItemInfo, cartList, productList } = useCommonCartEffect(shopId)
 
-  const total = computed(() => {
+  const calculations = computed(() => {
     const productList = cartList[shopId]?.productList
-    let count = 0
+    const result = { total: 0, price: 0, allChecked: true }
     if (productList) {
       for (const i in productList) {
         const product = productList[i]
-        count += product.count
-      }
-    }
-    return count
-  })
-  const price = computed(() => {
-    const productList = cartList[shopId]?.productList
-    let count = 0
-    if (productList) {
-      for (const i in productList) {
-        const product = productList[i]
+        result.total += product.count
         if (product.check) {
-          count += product.count * product.price
+          result.price += product.count * product.price
         }
-      }
-    }
-    return count.toFixed(2)
-  })
-
-  const allChecked = computed(() => {
-    const productList = cartList[shopId]?.productList
-    let result = true
-    if (productList) {
-      for (const i in productList) {
-        const product = productList[i]
         if (product.count > 0 && !product.check) {
-          result = false
+          result.allChecked = false
         }
       }
     }
+    result.price = result.price.toFixed(2)
     return result
-  })
-
-  const productList = computed(() => {
-    const productList = cartList[shopId]?.productList || []
-    return productList
   })
 
   const changeCartItemChecked = (shopId, productId) => {
@@ -140,7 +114,7 @@ const useCartEffect = (shopId) => {
     store.commit('setCartItemsChecked', { shopId })
   }
 
-  return { total, price, allChecked, productList, changeCartItemInfo, changeCartItemChecked, cleanCartProducts, setCartItemsChecked }
+  return { calculations, productList, changeCartItemInfo, changeCartItemChecked, cleanCartProducts, setCartItemsChecked }
 }
 
 // 显示/隐藏购物车逻辑
@@ -158,14 +132,12 @@ export default {
     const route = useRoute()
     const shopId = route.params.id
     const {
-      total, price, allChecked, productList,
+      calculations, productList,
       changeCartItemInfo, changeCartItemChecked, cleanCartProducts, setCartItemsChecked
     } = useCartEffect(shopId)
     const { showCart, handleCartShowChange } = toggleCartEffect()
     return {
-      total,
-      price,
-      allChecked,
+      calculations,
       productList,
       shopId,
       changeCartItemInfo,
